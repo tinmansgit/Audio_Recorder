@@ -1,5 +1,5 @@
 # Audio_Recorder
-Bash ffmpeg script for taking audio notes<br />
+Modified version of BreadOnPenguins original Bash ffmpeg script for taking audio notes to connect to jack<br />
 <br />
 Create a key combination to Start Recording. Use same key combination again to Stop Recording.<br />
 <br />
