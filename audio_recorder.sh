@@ -6,7 +6,7 @@ FILE_PREFIX="Note_"
 
 record() {
     outfile="${OUTPUT_DIR}/${FILE_PREFIX}$(date '+%y-%m-%d-%H%M%S').wav"
-    ffmpeg -f jack -i ffmpeg -af "afftdn=nf=-25" "$outfile" > /dev/null 2>&1 &
+    ffmpeg -f jack -i "ffmpeg" -af "afftdn=nf=-75" "$outfile" > /dev/null 2>&1 &
     proc_pid=$!
     echo "${proc_pid}" > "${PIDFILE}"
     notify-send -u critical "Recording started..."
