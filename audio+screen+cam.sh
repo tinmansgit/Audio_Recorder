@@ -34,7 +34,7 @@ record() {
     # acts as keyboard inputing Shift +V to start recording the cam
     guvcview --gui=gtk3 --video="$outfile_cam" > /dev/null 2>&1 &
     echo $! > "${PIDFILE1}"
-	sleep 2
+	sleep 1
 	WINDOW_ID=$(xdotool search --onlyvisible --class guvcview)
 	if [ -z "$WINDOW_ID" ]; then
 		log_debug "No visible window found for guvcview."
@@ -50,11 +50,11 @@ record() {
     
 	# start an ffmpeg instance to setup connection and record mic  
 	jack_connect system:capture_2 "Calf Studio Gear-01:Mono Input In #1"
-    ffmpeg -f jack -i "ffmpeg" -af "afftdn=nr=10:nf=-80:tn=1" "$outfile_audio" > /dev/null 2>&1 &
+    ffmpeg -f jack -i "ffmpeg" "$outfile_audio" > /dev/null 2>&1 &
     echo $! > "${PIDFILE3}"
     
 	# spit out a starting message to screen
-    rofi -e "Audio+Screen+Cam recording STARTED..."
+    rofi -theme-str "window {width: 400;}" -e "A+S+C recording STARTED..."
     log_debug "Audio+Screen+Cam recording STARTED..."
 }
 
@@ -64,7 +64,6 @@ end() {
         local proc_pid=$(cat "${PIDFILE1}")
         if kill -0 "${proc_pid}" 2>/dev/null; then
             kill -15 "${proc_pid}"
-            sleep 1
         else
             log_debug "Cam process ${proc_pid} is not running."
         fi
@@ -75,7 +74,6 @@ end() {
         local proc_pid=$(cat "${PIDFILE2}")
         if kill -0 "${proc_pid}" 2>/dev/null; then
             kill -15 "${proc_pid}"
-            sleep 1
         else
             log_debug "Screen process ${proc_pid} is not running."
         fi
@@ -86,7 +84,6 @@ end() {
         local proc_pid=$(cat "${PIDFILE3}")
         if kill -0 "${proc_pid}" 2>/dev/null; then
             kill -15 "${proc_pid}"
-            sleep 1
         else
             log_debug "Audio process ${proc_pid} is not running."
         fi
@@ -94,7 +91,7 @@ end() {
         jack_disconnect system:capture_2 "Calf Studio Gear-01:Mono Input In #1"
     fi
     
-    rofi -e "Audio+Screen+Cam recording ENDED!"
+    rofi -theme-str "window {width: 400;}" -e "A+S+C recording ENDED!"
     log_debug "Audio+Screen+Cam recording ENDED!"
 }
 

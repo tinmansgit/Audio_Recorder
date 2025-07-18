@@ -29,10 +29,10 @@ record() {
     echo $! > "${PIDFILE1}"
 	
 	jack_connect system:capture_2 "Calf Studio Gear-01:Mono Input In #1"
-    ffmpeg -f jack -i "ffmpeg" -af "afftdn=nr=10:nf=-80:tn=1" "$outfile_audio" > /dev/null 2>&1 &
+    ffmpeg -f jack -i "ffmpeg" "$outfile_audio" > /dev/null 2>&1 &
     echo $! > "${PIDFILE2}"
 
-    rofi -e "Audio+Screen recording started..."
+    rofi -theme-str "window {width: 400;}" -e "A+S recording started..."
     log_debug "Audio+Screen recording started..."
 }
 
@@ -41,7 +41,6 @@ end() {
         local proc_pid=$(cat "${PIDFILE1}")
         if kill -0 "${proc_pid}" 2>/dev/null; then
             kill -15 "${proc_pid}"
-            sleep 1
         else
             log_debug "Video process ${proc_pid} is not running."
         fi
@@ -52,14 +51,13 @@ end() {
         local proc_pid=$(cat "${PIDFILE2}")
         if kill -0 "${proc_pid}" 2>/dev/null; then
             kill -15 "${proc_pid}"
-            sleep 1
         else
             log_debug "Audio process ${proc_pid} is not running."
         fi
         rm -f "${PIDFILE2}"
     fi
 	jack_disconnect system:capture_2 "Calf Studio Gear-01:Mono Input In #1"
-    rofi -e "Audio+Screen recording ended!"
+    rofi -e -theme-str "window {width: 400;}" "A+S recording ended!"
     log_debug "Audio+Screen recording ended!"
 }
 
