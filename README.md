@@ -15,3 +15,5 @@ audio+screen.sh - added 2nd ffmpeg block to record desktop<br />
 audio+screen+cam.sh - added guvcview block to record web cam<br />
 audio+screen+cam+guitar.sh - added 3rd ffmpeg block to record guitar input >> guitarix >> ffmpeg<br />
 <br />
+TODO: upload qjackctl configs for patchage and calf configs<br />
+<br />
